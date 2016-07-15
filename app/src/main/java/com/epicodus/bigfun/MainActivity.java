@@ -32,6 +32,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
+public static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String PERMISSION = "user_events";
 
@@ -101,8 +102,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
-        setContentView(R.layout.main);
-        ButterKnife.bind(this);
+
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_events"));
 
@@ -118,16 +118,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     @Override
                                     public void onCompleted(JSONObject object, GraphResponse response) {
 
-                                        try {
-                                            JSONObject events = object.getJSONObject("events");
-                                            JSONArray data = events.getJSONArray("data");
-                                            for(int i=0; i<data.length(); i++) {
-                                                JSONObject eventData = data.getJSONObject(i);
-                                                String name = eventData.getString("name");
-                                                String description = eventData.getString("description");
-                                                UserEvents result = new UserEvents(name, description);
-
-                                                mEvents.add(result);
+                                        updateUI();
+//
+                                        MainActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
                                                 mAdapter = new EventsListAdapter(getApplicationContext(), mEvents);
                                                 mRecyclerView.setAdapter(mAdapter);
                                                 Log.d("--------- check", mRecyclerView + "");
@@ -135,9 +130,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 mRecyclerView.setLayoutManager(layoutManager);
                                                 mRecyclerView.setHasFixedSize(true);
                                             }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                        });
                                     }
 
                                 });
@@ -148,7 +141,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         request.executeAsync();
 
                     }
-
 
                     @Override
                     public void onCancel() {
@@ -178,6 +170,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     }
                 });
 
+
+
         shareDialog = new ShareDialog(this);
         shareDialog.registerCallback(
                 callbackManager,
@@ -189,6 +183,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
 
         setContentView(R.layout.main);
+        ButterKnife.bind(this);
+        getEvents("");
 
         profileTracker = new ProfileTracker() {
             @Override
@@ -221,6 +217,46 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+    private void getEvents(String response ) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        String jsonData = response.toString();
+                        Log.v(TAG, jsonData);
+                        mEvents = readGraphResponse(response);
+
+
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "events");
+        request.setParameters(parameters);
+        request.executeAsync();
+    };
+
+    public ArrayList<UserEvents> readGraphResponse(GraphResponse response) {
+        ArrayList<UserEvents> eventsArray= new ArrayList<>();
+
+        try {
+            JSONObject eventsJSON= response.getJSONObject();
+            JSONObject events = eventsJSON.getJSONObject("events");
+            JSONArray data = events.getJSONArray("data");
+            for(int i=0; i<data.length(); i++) {
+                JSONObject eventData = data.getJSONObject(i);
+                String name = eventData.getString("name");
+                String description = eventData.getString("description");
+                UserEvents result = new UserEvents(name, description);
+
+                eventsArray.add(result);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return eventsArray;
     }
 
     @Override
