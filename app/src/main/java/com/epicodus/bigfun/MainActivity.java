@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
 import com.facebook.share.Sharer;
 import com.facebook.share.widget.ShareDialog;
@@ -31,7 +32,7 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener{
+public class MainActivity extends FragmentActivity {
 public static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String PERMISSION = "user_events";
@@ -48,7 +49,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
-
+    public LoginButton mLoginButton = (LoginButton) findViewById(R.id.login_button);
     private EventsListAdapter mAdapter;
 
     public ArrayList<UserEvents> mEvents = new ArrayList<>();
@@ -87,12 +88,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
         }
     };
 
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(MainActivity.this, EventsListActivity.class );
-        startActivity(intent);
 
-    }
 
     private enum PendingAction {
         NONE,
@@ -104,7 +100,9 @@ public static final String TAG = MainActivity.class.getSimpleName();
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_events"));
+
+//        mLoginButton.setReadPermissions(Arrays.asList("user_events"));
+//        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_events"));
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -117,9 +115,9 @@ public static final String TAG = MainActivity.class.getSimpleName();
                                 new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
                                     public void onCompleted(JSONObject object, GraphResponse response) {
-
+                                        Log.d(TAG,object + "");
                                         updateUI();
-//
+
                                         MainActivity.this.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -184,7 +182,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
         setContentView(R.layout.main);
         ButterKnife.bind(this);
-        getEvents("");
+        getEventData("");
 
         profileTracker = new ProfileTracker() {
             @Override
@@ -218,14 +216,12 @@ public static final String TAG = MainActivity.class.getSimpleName();
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    private void getEvents(String response ) {
+    private void getEventData(String response ) {
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        String jsonData = response.toString();
-                        Log.v(TAG, jsonData);
                         mEvents = readGraphResponse(response);
 
 
@@ -249,6 +245,11 @@ public static final String TAG = MainActivity.class.getSimpleName();
                 JSONObject eventData = data.getJSONObject(i);
                 String name = eventData.getString("name");
                 String description = eventData.getString("description");
+//                ArrayList<String> imageUrl = new ArrayList<>();
+                JSONObject imageJSON = eventData.getJSONObject("place");
+
+//                String image = imageJSON.getString("source");
+
                 UserEvents result = new UserEvents(name, description);
 
                 eventsArray.add(result);
