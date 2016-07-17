@@ -42,7 +42,8 @@
             android:name="com.facebook.sdk.ApplicationName"
             android:value="@string/facebook_app_name" />
 
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".EventDetailActivity"></activity>
     </application>
 
 </manifest>

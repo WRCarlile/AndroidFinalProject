@@ -1,6 +1,7 @@
 package com.epicodus.bigfun;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -41,7 +44,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
         return mEvents.size();
     }
 
-    public class EventViewHolder extends RecyclerView.ViewHolder {
+    public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.eventName)
         TextView mNameTextView;
         @Bind(R.id.eventDescription) TextView mDescriptionTextView;
@@ -53,12 +56,22 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            itemView.setOnClickListener(this);
         }
+
 
         public void bindEvent(UserEvents events) {
             mNameTextView.setText(events.getName());
             mDescriptionTextView.setText(events.getDescription());
             Picasso.with(mContext).load(events.getImageUrl()).into(mEventImageView);
+        }
+        @Override
+        public void onClick(View v) {
+            int itemPosition = getLayoutPosition();
+            Intent intent = new Intent(mContext, EventDetailActivity.class);
+            intent.putExtra("position", itemPosition + "");
+            intent.putExtra("events", Parcels.wrap(mEvents));
+            mContext.startActivity(intent);
         }
     }
 }
