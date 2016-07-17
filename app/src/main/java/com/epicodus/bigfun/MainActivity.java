@@ -44,8 +44,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends FragmentActivity {
 public static final String TAG = MainActivity.class.getSimpleName();
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseAuth mAuth;
+//    private FirebaseAuth.AuthStateListener mAuthListener;
+//    private FirebaseAuth mAuth;
     private static final String PERMISSION = "user_events";
 
     private final String PENDING_ACTION_BUNDLE_KEY =
@@ -60,7 +60,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    public LoginButton mLoginButton = (LoginButton) findViewById(R.id.login_button);
+
     private EventsListAdapter mAdapter;
 
     public ArrayList<UserEvents> mEvents = new ArrayList<>();
@@ -110,22 +110,22 @@ public static final String TAG = MainActivity.class.getSimpleName();
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
+//        mAuth = FirebaseAuth.getInstance();
+//
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//                    // User is signed in
+//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+//                } else {
+//                    // User is signed out
+//                    Log.d(TAG, "onAuthStateChanged:signed_out");
+//                }
+//                // ...
+//            }
+//        };
         // ...
 
 
@@ -138,7 +138,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
                     @Override
                     public void onSuccess(LoginResult loginResult) {
 
-                        handleFacebookAccessToken(loginResult.getAccessToken());
+//                        handleFacebookAccessToken(loginResult.getAccessToken());
 
                         handlePendingAction();
                         updateUI();
@@ -148,7 +148,24 @@ public static final String TAG = MainActivity.class.getSimpleName();
                                     public void onCompleted(JSONObject object, GraphResponse response) {
                                         Log.d(TAG,object + "");
                                         updateUI();
+                                        try {
+                                            JSONObject events = object.getJSONObject("events");
+                                            JSONArray data = events.getJSONArray("data");
 
+                                            for(int i=0; i<data.length(); i++) {
+                                                JSONObject eventData = data.getJSONObject(i);
+                                                JSONObject imageJSON = eventData.getJSONObject("cover");
+                                                String imageUrl = imageJSON.getString("source");
+//
+                                                String name = eventData.getString("name");
+                                                String description = eventData.getString("description");
+                                                UserEvents result = new UserEvents(name, description,imageUrl);
+                                                mEvents.add(result);
+
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                         MainActivity.this.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -165,7 +182,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
                                 });
 
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,events");
+                        parameters.putString("fields", "events{name, description, cover}");
                         request.setParameters(parameters);
                         request.executeAsync();
 
@@ -213,7 +230,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
         setContentView(R.layout.main);
         ButterKnife.bind(this);
-        getEventData("");
+//        getEventData("");
 
         profileTracker = new ProfileTracker() {
             @Override
@@ -228,19 +245,19 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
 
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -260,49 +277,49 @@ public static final String TAG = MainActivity.class.getSimpleName();
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    private void getEventData(String response ) {
-        GraphRequest request = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        mEvents = readGraphResponse(response);
-
-
-                    }
-                });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "events");
-        request.setParameters(parameters);
-        request.executeAsync();
-    };
-
-    public ArrayList<UserEvents> readGraphResponse(GraphResponse response) {
-        ArrayList<UserEvents> eventsArray= new ArrayList<>();
-
-        try {
-            JSONObject eventsJSON= response.getJSONObject();
-            JSONObject events = eventsJSON.getJSONObject("events");
-            JSONArray data = events.getJSONArray("data");
-            for(int i=0; i<data.length(); i++) {
-                JSONObject eventData = data.getJSONObject(i);
-                String name = eventData.getString("name");
-                String description = eventData.getString("description");
-//                ArrayList<String> imageUrl = new ArrayList<>();
-                JSONObject imageJSON = eventData.getJSONObject("place");
-
-//                String image = imageJSON.getString("source");
-
-                UserEvents result = new UserEvents(name, description);
-
-                eventsArray.add(result);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return eventsArray;
-    }
+//    private void getEventData(String response ) {
+//        GraphRequest request = GraphRequest.newMeRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                new GraphRequest.GraphJSONObjectCallback() {
+//                    @Override
+//                    public void onCompleted(JSONObject object, GraphResponse response) {
+//                        mEvents = readGraphResponse(response);
+//
+//
+//                    }
+//                });
+//
+//        Bundle parameters = new Bundle();
+//        parameters.putString("fields", "events");
+//        request.setParameters(parameters);
+//        request.executeAsync();
+//    };
+//
+//    public ArrayList<UserEvents> readGraphResponse(GraphResponse response) {
+//        ArrayList<UserEvents> eventsArray= new ArrayList<>();
+//
+//        try {
+//            JSONObject eventsJSON= response.getJSONObject();
+//            JSONObject events = eventsJSON.getJSONObject("events");
+//            JSONArray data = events.getJSONArray("data");
+//            for(int i=0; i<data.length(); i++) {
+//                JSONObject eventData = data.getJSONObject(i);
+//                String name = eventData.getString("name");
+//                String description = eventData.getString("description");
+////                ArrayList<String> imageUrl = new ArrayList<>();
+//                JSONObject imageJSON = eventData.getJSONObject("place");
+//
+////                String image = imageJSON.getString("source");
+//
+//                UserEvents result = new UserEvents(name, description);
+//
+//                eventsArray.add(result);
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return eventsArray;
+//    }
 
     @Override
     protected void onDestroy() {
@@ -333,27 +350,27 @@ public static final String TAG = MainActivity.class.getSimpleName();
                 break;
         }
     }
-    private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                        // ...
-                    }
-                });
-    }
+//    private void handleFacebookAccessToken(AccessToken token) {
+//        Log.d(TAG, "handleFacebookAccessToken:" + token);
+//
+//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+//
+//                        // If sign in fails, display a message to the user. If sign in succeeds
+//                        // the auth state listener will be notified and logic to handle the
+//                        // signed in user can be handled in the listener.
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "signInWithCredential", task.getException());
+//                            Toast.makeText(MainActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        // ...
+//                    }
+//                });
+//    }
 }

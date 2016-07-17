@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,8 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
         TextView mNameTextView;
         @Bind(R.id.eventDescription) TextView mDescriptionTextView;
         private Context mContext;
+        @Bind(R.id.eventImageView)
+        ImageView mEventImageView;
 
         public EventViewHolder(View itemView) {
             super(itemView);
@@ -53,7 +58,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
         public void bindEvent(UserEvents events) {
             mNameTextView.setText(events.getName());
             mDescriptionTextView.setText(events.getDescription());
-
+            Picasso.with(mContext).load(events.getImageUrl()).into(mEventImageView);
         }
     }
 }
