@@ -27,7 +27,7 @@ public class EventDetailFragment extends Fragment {
     private UserEvents mEvent;
 
 
-    public EventDetailFragment newInstance(UserEvents event) {
+    public static EventDetailFragment newInstance(UserEvents event) {
         EventDetailFragment eventDetailFragment = new EventDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable("event", Parcels.wrap(event));

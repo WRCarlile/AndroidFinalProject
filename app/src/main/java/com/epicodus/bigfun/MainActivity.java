@@ -26,11 +26,11 @@ import com.facebook.share.Sharer;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+//import com.google.firebase.auth.AuthCredential;
+//import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.FacebookAuthProvider;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -146,7 +146,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
                                 new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
                                     public void onCompleted(JSONObject object, GraphResponse response) {
-                                        Log.d(TAG,object + "");
+
                                         updateUI();
                                         try {
                                             JSONObject events = object.getJSONObject("events");
@@ -277,49 +277,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-//    private void getEventData(String response ) {
-//        GraphRequest request = GraphRequest.newMeRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                new GraphRequest.GraphJSONObjectCallback() {
-//                    @Override
-//                    public void onCompleted(JSONObject object, GraphResponse response) {
-//                        mEvents = readGraphResponse(response);
-//
-//
-//                    }
-//                });
-//
-//        Bundle parameters = new Bundle();
-//        parameters.putString("fields", "events");
-//        request.setParameters(parameters);
-//        request.executeAsync();
-//    };
-//
-//    public ArrayList<UserEvents> readGraphResponse(GraphResponse response) {
-//        ArrayList<UserEvents> eventsArray= new ArrayList<>();
-//
-//        try {
-//            JSONObject eventsJSON= response.getJSONObject();
-//            JSONObject events = eventsJSON.getJSONObject("events");
-//            JSONArray data = events.getJSONArray("data");
-//            for(int i=0; i<data.length(); i++) {
-//                JSONObject eventData = data.getJSONObject(i);
-//                String name = eventData.getString("name");
-//                String description = eventData.getString("description");
-////                ArrayList<String> imageUrl = new ArrayList<>();
-//                JSONObject imageJSON = eventData.getJSONObject("place");
-//
-////                String image = imageJSON.getString("source");
-//
-//                UserEvents result = new UserEvents(name, description);
-//
-//                eventsArray.add(result);
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return eventsArray;
-//    }
+
 
     @Override
     protected void onDestroy() {

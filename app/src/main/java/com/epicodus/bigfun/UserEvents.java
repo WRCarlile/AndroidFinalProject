@@ -1,5 +1,5 @@
 package com.epicodus.bigfun;
-
+import com.epicodus.bigfun.UserEvents;
 import org.parceler.Parcel;
 
 public class UserEvents {
@@ -9,10 +9,10 @@ public class UserEvents {
 
     public UserEvents() {};
 
-    public UserEvents(String name, String description, String image) {
+    public UserEvents(String name, String description, String imageUrl) {
         this.mName = name;
         this.mDescription = description;
-        this.mImageUrl = image;
+        this.mImageUrl = imageUrl;
 
     }
 
