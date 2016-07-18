@@ -1,4 +1,4 @@
-package com.epicodus.bigfun;
+package com.epicodus.bigfun.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.epicodus.bigfun.EventDetailActivity;
+import com.epicodus.bigfun.R;
+import com.epicodus.bigfun.models.UserEvents;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.EventViewHolder> {
+public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.EventViewHolder> implements View.OnClickListener{
     private static final int MAX_WIDTH = 1600;
     private static final int MAX_HEIGHT = 2200;
 
@@ -46,6 +49,11 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
     @Override
     public int getItemCount() {
         return mEvents.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

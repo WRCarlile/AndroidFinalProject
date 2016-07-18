@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.epicodus.bigfun.adapters.EventsListAdapter;
+import com.epicodus.bigfun.models.UserEvents;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -182,7 +184,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
                                 });
 
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "events{name, description, cover}");
+                        parameters.putString("fields", "events{id, name, description, cover}");
                         request.setParameters(parameters);
                         request.executeAsync();
 

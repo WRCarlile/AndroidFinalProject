@@ -1,10 +1,10 @@
-package com.epicodus.bigfun;
+package com.epicodus.bigfun.adapters;
 
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.epicodus.bigfun.UserEvents;
+import com.epicodus.bigfun.models.UserEvents;
 import com.epicodus.bigfun.EventDetailFragment;
 
 import java.util.ArrayList;

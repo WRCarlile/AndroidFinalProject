@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "618838514107-ie3crtctlt2qbk5m7hgiue7maliq7p3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.epicodus.bigfun",
+            "certificate_hash": "DF21C6842CCD4A363FAFE50752D8165EEA5862BD"
+          }
+        },
+        {
           "client_id": "618838514107-ghvhr3fcnbv6kl44ar1kj7nl1md81t1k.apps.googleusercontent.com",
           "client_type": 3
         }

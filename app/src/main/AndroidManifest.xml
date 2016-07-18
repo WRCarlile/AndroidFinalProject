@@ -43,7 +43,8 @@
             android:value="@string/facebook_app_name" />
 
         <activity android:name=".LoginActivity" />
-        <activity android:name=".EventDetailActivity"></activity>
+        <activity android:name=".EventDetailActivity" />
+        <activity android:name=".AddEventActivity"></activity>
     </application>
 
 </manifest>

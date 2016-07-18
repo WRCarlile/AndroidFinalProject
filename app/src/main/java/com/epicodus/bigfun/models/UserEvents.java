@@ -1,5 +1,4 @@
-package com.epicodus.bigfun;
-import com.epicodus.bigfun.UserEvents;
+package com.epicodus.bigfun.models;
 import org.parceler.Parcel;
 @Parcel
 public class UserEvents {

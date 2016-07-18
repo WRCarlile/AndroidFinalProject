@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
-import com.epicodus.bigfun.UserEvents;
+import com.epicodus.bigfun.models.UserEvents;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
