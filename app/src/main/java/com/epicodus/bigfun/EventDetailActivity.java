@@ -27,7 +27,7 @@ public class EventDetailActivity extends FragmentActivity {
         ButterKnife.bind(this);
 
         mEvents = Parcels.unwrap(getIntent().getParcelableExtra("events"));
-        int startingPosition = getIntent().getIntExtra("position", 0);
+        int startingPosition = Integer.parseInt(getIntent().getStringExtra("position"));
 
         adapterViewPager = new EventPagerAdapter(getSupportFragmentManager(), mEvents);
         mViewPager.setAdapter(adapterViewPager);
