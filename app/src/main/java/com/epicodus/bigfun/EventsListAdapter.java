@@ -3,6 +3,7 @@ package com.epicodus.bigfun;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.EventViewHolder> {
+    private static final int MAX_WIDTH = 1600;
+    private static final int MAX_HEIGHT = 2200;
+
     private ArrayList<UserEvents> mEvents = new ArrayList<>();
     private Context mContext;
 
@@ -48,13 +52,15 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
         @Bind(R.id.eventName)
         TextView mNameTextView;
         @Bind(R.id.eventDescription) TextView mDescriptionTextView;
-        private Context mContext;
         @Bind(R.id.eventImageView)
         ImageView mEventImageView;
+
+        private Context mContext;
 
         public EventViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
         }
@@ -63,10 +69,15 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
         public void bindEvent(UserEvents events) {
             mNameTextView.setText(events.getName());
             mDescriptionTextView.setText(events.getDescription());
-            Picasso.with(mContext).load(events.getImageUrl()).into(mEventImageView);
+            Picasso.with(mContext)
+                    .load(events.getImageUrl())
+                    .resize(MAX_WIDTH, MAX_HEIGHT)
+                    .centerCrop()
+                    .into(mEventImageView);
         }
         @Override
         public void onClick(View v) {
+            Log.d("click listener", "working");
             int itemPosition = getLayoutPosition();
             Intent intent = new Intent(mContext, EventDetailActivity.class);
             intent.putExtra("position", itemPosition + "");

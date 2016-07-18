@@ -24,5 +24,6 @@ public class UserEvents {
     }
     public String getImageUrl() {return mImageUrl;}
 
+
 }
 
