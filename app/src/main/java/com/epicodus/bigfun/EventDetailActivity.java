@@ -25,7 +25,7 @@ public class EventDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_detail);
         ButterKnife.bind(this);
 
-        mEvents = Parcels.unwrap(getIntent().getParcelableExtra("restaurants"));
+        mEvents = Parcels.unwrap(getIntent().getParcelableExtra("events"));
         int startingPosition = getIntent().getIntExtra("position", 0);
 
         adapterViewPager = new EventPagerAdapter(getSupportFragmentManager(), mEvents);

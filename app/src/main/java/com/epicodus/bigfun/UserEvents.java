@@ -1,7 +1,7 @@
 package com.epicodus.bigfun;
 import com.epicodus.bigfun.UserEvents;
 import org.parceler.Parcel;
-
+@Parcel
 public class UserEvents {
     private String mName;
     private String mDescription;
