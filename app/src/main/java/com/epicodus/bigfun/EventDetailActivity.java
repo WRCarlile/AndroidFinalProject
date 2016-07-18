@@ -2,6 +2,7 @@ package com.epicodus.bigfun;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends FragmentActivity {
 
     @Bind(R.id.viewPager)
     ViewPager mViewPager;
