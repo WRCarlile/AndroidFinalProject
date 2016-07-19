@@ -106,9 +106,10 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     public void onClick(View view) {
-//        Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-//        startActivity(intent);
-
+        if(view == mAddEvent) {
+            Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+            startActivity(intent);
+        }
     }
 
 
