@@ -27,6 +27,7 @@ import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
 import com.facebook.share.Sharer;
 import com.facebook.share.widget.ShareDialog;
+//import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -46,9 +47,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
-public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = MainActivity.class.getSimpleName();
+//    private Firebase mRef = new Firebase("https://big-fun.firebaseio.com/");
+
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
+
     private static final String PERMISSION = "user_events";
 
     private final String PENDING_ACTION_BUNDLE_KEY =
@@ -112,7 +116,6 @@ public static final String TAG = MainActivity.class.getSimpleName();
         }
     }
 
-
     private enum PendingAction {
         NONE,
     }
@@ -120,22 +123,25 @@ public static final String TAG = MainActivity.class.getSimpleName();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_events", "email", "public_profile"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_events","email", "public_profile"));
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
 
-                        handleFacebookAccessToken(loginResult.getAccessToken());
-
                         handlePendingAction();
                         updateUI();
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+
                         GraphRequest request = GraphRequest.newMeRequest( AccessToken.getCurrentAccessToken(),
                                 new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
@@ -150,8 +156,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
                                                 JSONObject eventData = data.getJSONObject(i);
                                                 JSONObject imageJSON = eventData.getJSONObject("cover");
                                                 String imageUrl = imageJSON.getString("source");
-//
-                                                String name = eventData.getString("name");
+                                            String name = eventData.getString("name");
                                                 String description = eventData.getString("description");
                                                 UserEvents result = new UserEvents(name, description,imageUrl);
                                                 mEvents.add(result);
@@ -220,22 +225,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
             String name = savedInstanceState.getString(PENDING_ACTION_BUNDLE_KEY);
             pendingAction = PendingAction.valueOf(name);
         }
-        mAuth = FirebaseAuth.getInstance();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         mAddEvent.setOnClickListener(this);
@@ -251,6 +241,24 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
         profilePictureView = (ProfilePictureView) findViewById(R.id.profilePicture);
         greeting = (TextView) findViewById(R.id.greeting);
+
+
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
 
 
     }
@@ -332,8 +340,8 @@ public static final String TAG = MainActivity.class.getSimpleName();
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
