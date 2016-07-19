@@ -2,26 +2,26 @@ package com.epicodus.bigfun.models;
 import org.parceler.Parcel;
 @Parcel
 public class UserEvents {
-    private String mName;
-    private String mDescription;
-    private String mImageUrl;
+    private String name;
+    private String description;
+    private String imageUrl;
 
     public UserEvents() {};
 
     public UserEvents(String name, String description, String imageUrl) {
-        this.mName = name;
-        this.mDescription = description;
-        this.mImageUrl = imageUrl;
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
 
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
     public String getDescription() {
-        return mDescription;
+        return description;
     }
-    public String getImageUrl() {return mImageUrl;}
+    public String getImageUrl() {return imageUrl;}
 
 
 }

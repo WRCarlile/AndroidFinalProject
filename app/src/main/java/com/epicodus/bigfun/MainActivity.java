@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements View.OnClickListener{
 public static final String TAG = MainActivity.class.getSimpleName();
 //    private FirebaseAuth.AuthStateListener mAuthListener;
 //    private FirebaseAuth mAuth;
@@ -62,6 +63,8 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @Bind(R.id.addEvent)
+    ImageButton mAddEvent;
 
     private EventsListAdapter mAdapter;
 
@@ -101,6 +104,12 @@ public static final String TAG = MainActivity.class.getSimpleName();
         }
     };
 
+    @Override
+    public void onClick(View view) {
+//        Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+//        startActivity(intent);
+
+    }
 
 
     private enum PendingAction {
@@ -111,6 +120,7 @@ public static final String TAG = MainActivity.class.getSimpleName();
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
+
 
 //        mAuth = FirebaseAuth.getInstance();
 //
@@ -232,7 +242,8 @@ public static final String TAG = MainActivity.class.getSimpleName();
 
         setContentView(R.layout.main);
         ButterKnife.bind(this);
-//        getEventData("");
+        mAddEvent.setOnClickListener(this);
+
 
         profileTracker = new ProfileTracker() {
             @Override

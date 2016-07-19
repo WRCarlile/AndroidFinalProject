@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.EventViewHolder> implements View.OnClickListener{
+public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.EventViewHolder> {
     private static final int MAX_WIDTH = 1600;
     private static final int MAX_HEIGHT = 2200;
 
@@ -51,10 +51,6 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
         return mEvents.size();
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
 
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.eventName)
