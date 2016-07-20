@@ -1,6 +1,8 @@
 package com.epicodus.bigfun;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +34,7 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
     @Bind(R.id.eventDescription) TextView mEventDescription;
     @Bind(R.id.eventName) TextView mEventName;
     @Bind(R.id.saveEvent) Button mSaveEvent;
+    @Bind(R.id.bMap) Button mMap;
 
     private UserEvents mEvent;
 
@@ -49,8 +52,8 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         mEvent = Parcels.unwrap(getArguments().getParcelable("event"));
 
-        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        Log.d("current user", user + " ");
+//        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+//        Log.d("current user", user + " ");
     }
 
     @Override
@@ -63,6 +66,7 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
         mEventName.setText(mEvent.getName());
         mEventDescription.setText(mEvent.getDescription());
         mSaveEvent.setOnClickListener(this);
+        mMap.setOnClickListener(this);
 
         return view;
     }
@@ -82,6 +86,11 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
             mEvent.setPushId(pushId);
             pushRef.setValue(mEvent);
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+        }
+        if (view == mMap) {
+            Uri webpage = Uri.parse("https://maps.google.com");
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+            startActivity(webIntent);
         }
 
     }

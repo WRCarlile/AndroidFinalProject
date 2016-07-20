@@ -41,6 +41,14 @@
             android:textColor="@color/accent_material_dark"
             android:textSize="15sp"
             android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="Map"
+            android:id="@+id/bMap"
+            android:layout_marginLeft="30dp" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
