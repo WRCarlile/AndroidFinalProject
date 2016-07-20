@@ -5,6 +5,7 @@ public class UserEvents {
     private String name;
     private String description;
     private String imageUrl;
+    private String pushId;
 
     public UserEvents() {};
 
@@ -23,6 +24,12 @@ public class UserEvents {
     }
     public String getImageUrl() {return imageUrl;}
 
+    public String getPushId(){
+        return pushId;
+    }
 
+    public void setPushId(String pushId){
+        this.pushId = pushId;
+    }
 }
 
