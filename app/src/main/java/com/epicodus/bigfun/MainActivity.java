@@ -35,6 +35,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +57,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
+    private DatabaseReference mSavedEventReference;
+    private ValueEventListener mSavedEventReferenceListener;
 
     private static final String PERMISSION = "user_events";
 
@@ -125,6 +132,28 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
+        mSavedEventReference = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child(Constants.FIREBASE_CHILD_SAVED_EVENT);
+
+        mSavedEventReferenceListener = mSavedEventReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
+                    String savedEvent = locationSnapshot.getValue().toString();
+                    Log.d("saved event", "event: " + savedEvent);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
 
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
@@ -300,6 +329,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         profileTracker.stopTracking();
+        mSavedEventReference.removeEventListener(mSavedEventReferenceListener);
     }
 
     private void updateUI() {
