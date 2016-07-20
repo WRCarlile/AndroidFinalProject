@@ -72,11 +72,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private ProfileTracker profileTracker;
     private ShareDialog shareDialog;
 
-    @Bind(R.id.recyclerView)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.addEvent)
-    ImageButton mAddEvent;
-
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.addEvent) ImageButton mAddEvent;
+    @Bind(R.id.bSavedEvents) Button mSavedEvents;
     private EventsListAdapter mAdapter;
 
     public ArrayList<UserEvents> mEvents = new ArrayList<>();
@@ -119,6 +117,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
         if(view == mAddEvent) {
             Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+            startActivity(intent);
+        }
+        if(view == mSavedEvents) {
+            Intent intent = new Intent(MainActivity.this, SavedEventListActivity.class);
             startActivity(intent);
         }
     }
@@ -258,6 +260,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         mAddEvent.setOnClickListener(this);
+        mSavedEvents.setOnClickListener(this);
 
 
         profileTracker = new ProfileTracker() {
