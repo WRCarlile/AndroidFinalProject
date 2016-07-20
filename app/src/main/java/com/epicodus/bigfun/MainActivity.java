@@ -57,13 +57,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
-    private DatabaseReference mSavedEventReference;
-    private ValueEventListener mSavedEventReferenceListener;
+//    private DatabaseReference mSavedEventReference;
+//    private ValueEventListener mSavedEventReferenceListener;
 
     private static final String PERMISSION = "user_events";
-
-    private final String PENDING_ACTION_BUNDLE_KEY =
-            "com.epicodus.bigfun:PendingAction";
+    private final String PENDING_ACTION_BUNDLE_KEY = "com.epicodus.bigfun:PendingAction";
 
     private ProfilePictureView profilePictureView;
     private TextView greeting;
@@ -75,6 +73,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.addEvent) ImageButton mAddEvent;
     @Bind(R.id.bSavedEvents) Button mSavedEvents;
+
     private EventsListAdapter mAdapter;
 
     public ArrayList<UserEvents> mEvents = new ArrayList<>();
@@ -113,17 +112,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     };
 
-    @Override
-    public void onClick(View view) {
-        if(view == mAddEvent) {
-            Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-            startActivity(intent);
-        }
-        if(view == mSavedEvents) {
-            Intent intent = new Intent(MainActivity.this, SavedEventListActivity.class);
-            startActivity(intent);
-        }
-    }
 
     private enum PendingAction {
         NONE,
@@ -134,31 +122,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
-        mSavedEventReference = FirebaseDatabase
-                .getInstance()
-                .getReference()
-                .child(Constants.FIREBASE_CHILD_SAVED_EVENT);
-
-        mSavedEventReferenceListener = mSavedEventReference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
-                    String savedEvent = locationSnapshot.getValue().toString();
-                    Log.d("saved event", "event: " + savedEvent);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        });
 
         FacebookSdk.sdkInitialize(this.getApplicationContext());
-
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -274,7 +239,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         profilePictureView = (ProfilePictureView) findViewById(R.id.profilePicture);
         greeting = (TextView) findViewById(R.id.greeting);
 
-
+//        mSavedEventReference = FirebaseDatabase
+//                .getInstance()
+//                .getReference()
+//                .child(Constants.FIREBASE_CHILD_SAVED_EVENT);
+//
+//        mSavedEventReferenceListener = mSavedEventReference.addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
+//                    String savedEvent = locationSnapshot.getValue().toString();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//
+//        });
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -287,12 +272,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
+    }
 
 
+    @Override
+    public void onClick(View view) {
+        if(view == mAddEvent) {
+            Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+            startActivity(intent);
+        }
+        if(view == mSavedEvents) {
+            Intent intent = new Intent(MainActivity.this, SavedEventListActivity.class);
+            startActivity(intent);
+        }
     }
     @Override
     public void onStart() {
@@ -316,7 +311,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         outState.putString(PENDING_ACTION_BUNDLE_KEY, pendingAction.name());
     }
 
@@ -332,18 +326,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         profileTracker.stopTracking();
-        mSavedEventReference.removeEventListener(mSavedEventReferenceListener);
+//        mSavedEventReference.removeEventListener(mSavedEventReferenceListener);
     }
 
     private void updateUI() {
         boolean enableButtons = AccessToken.getCurrentAccessToken() != null;
-
         Profile profile = Profile.getCurrentProfile();
         if (enableButtons && profile != null) {
             profilePictureView.setProfileId(profile.getId());
             greeting.setText(getString(R.string.hello_user, profile.getFirstName()));
-
-
         } else {
             profilePictureView.setProfileId(null);
             greeting.setText(null);
@@ -373,8 +364,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-//                            Toast.makeText(MainActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SavedEventListActivity extends FragmentActivity {
+public class SavedEventListActivity extends Activity {
         private DatabaseReference mEventReference;
         private FirebaseRecyclerAdapter mFirebaseAdapter;
 
@@ -26,7 +26,7 @@ public class SavedEventListActivity extends FragmentActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.main);
+            setContentView(R.layout.saved_event_list);
             ButterKnife.bind(this);
 
             mEventReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_SAVED_EVENT);
