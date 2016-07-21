@@ -27,7 +27,8 @@
                 android:textSize="10sp"
                 android:layout_column="1"
                 android:layout_row="1"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@string/font_family"/>
 
             <com.facebook.login.widget.ProfilePictureView
                 android:id="@+id/profilePicture"
@@ -63,7 +64,8 @@
                 android:id="@+id/bSavedEvents"
                 android:layout_row="3"
                 android:layout_column="2"
-                android:layout_marginLeft="200dp" />
+                android:layout_marginLeft="200dp"
+                android:fontFamily="@string/font_family"/>
 
         </GridLayout>
 
