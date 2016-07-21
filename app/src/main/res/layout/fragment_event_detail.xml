@@ -30,7 +30,8 @@
             android:text="eventName"
             android:id="@+id/eventName"
             android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@string/font_family"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,14 +41,16 @@
             android:background="@color/com_facebook_button_border_color_focused"
             android:textColor="@color/accent_material_dark"
             android:textSize="15sp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@string/font_family"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:text="Map"
             android:id="@+id/bMap"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="30dp"
+            android:fontFamily="@string/font_family"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -61,7 +64,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="eventDescription"
             android:id="@+id/eventDescription"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:fontFamily="@string/font_family"/>
         </ScrollView>
     </LinearLayout>
 
