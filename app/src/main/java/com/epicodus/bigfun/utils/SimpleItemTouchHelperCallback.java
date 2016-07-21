@@ -55,6 +55,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return true;
     }
 
+
     //  The method below notifies the adapter that an item was dismissed.
     //  This triggers the onItemDismiss override in our Firebase adapter
     //  which will eventually handle deleting this item from the user's "Saved Restaurants" in Firebase.
