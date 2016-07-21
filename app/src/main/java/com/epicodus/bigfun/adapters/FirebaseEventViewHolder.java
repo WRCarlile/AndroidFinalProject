@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 
 public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private static final int MAX_WIDTH = 1600;
-    private static final int MAX_HEIGHT = 2200;
+//    private static final int MAX_WIDTH = 1600;
+//    private static final int MAX_HEIGHT = 2200;
 
     View mView;
     Context mContext;
@@ -47,8 +47,8 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements 
 
         Picasso.with(mContext)
                 .load(event.getImageUrl())
-                .resize(MAX_WIDTH, MAX_HEIGHT)
-                .centerCrop()
+//                .resize(MAX_WIDTH, MAX_HEIGHT)
+//                .centerCrop()
                 .into(eventImageView);
 
         nameTextView.setText(event.getName());

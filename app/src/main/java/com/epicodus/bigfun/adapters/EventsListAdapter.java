@@ -23,8 +23,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.EventViewHolder> {
-    private static final int MAX_WIDTH = 1600;
-    private static final int MAX_HEIGHT = 2200;
+//    private static final int MAX_WIDTH = 1600;
+//    private static final int MAX_HEIGHT = 2200;
 
     private ArrayList<UserEvents> mEvents = new ArrayList<>();
     private Context mContext;
@@ -75,8 +75,8 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
             mDescriptionTextView.setText(events.getDescription());
             Picasso.with(mContext)
                     .load(events.getImageUrl())
-                    .resize(MAX_WIDTH, MAX_HEIGHT)
-                    .centerCrop()
+//                    .resize(MAX_WIDTH, MAX_HEIGHT)
+//                    .centerCrop()
                     .into(mEventImageView);
         }
         @Override
