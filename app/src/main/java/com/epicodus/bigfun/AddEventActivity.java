@@ -3,6 +3,7 @@ package com.epicodus.bigfun;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +28,6 @@ public class AddEventActivity extends FragmentActivity implements View.OnClickLi
 
         private DatabaseReference mAddNewEvent;
 
-//        private String name;
-//        private String description;
-//        private String imageUrl;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +56,12 @@ public class AddEventActivity extends FragmentActivity implements View.OnClickLi
         }
         public void saveEventToFirebase(UserEvents eventAdd) {
             mAddNewEvent.push().setValue(eventAdd);
+        }
+        public void onLaunchCamera() {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         }
     }
 
