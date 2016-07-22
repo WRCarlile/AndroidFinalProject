@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardBackgroundColor="#fff">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:id="@+id/eventImageView"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/gate_flyer"
+                android:contentDescription="Photo of Event" />
+
+                <ImageView
+                    android:id="@+id/dragIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@id/eventImageView"
+                    android:layout_alignBottom="@id/eventImageView"
+                    android:gravity="bottom|left"
+                    android:src="@drawable/ic_reorder_white_24dp"/>
+
+
+    </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="eventName"
+                android:id="@+id/eventName"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:paddingBottom="20dp"
+                android:layout_below="@id/eventImageView"
+                android:fontFamily="@string/font_family"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAlignment="center"
+                android:text="eventDescription"
+                android:id="@+id/eventDescription"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:layout_below="@id/eventName"
+                android:fontFamily="@string/font_family"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

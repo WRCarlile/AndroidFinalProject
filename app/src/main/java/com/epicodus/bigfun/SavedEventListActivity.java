@@ -35,7 +35,7 @@ public class SavedEventListActivity extends Activity {
 
         private void setUpFirebaseAdapter() {
             mFirebaseAdapter = new FirebaseRecyclerAdapter<UserEvents, FirebaseEventViewHolder>
-                    (UserEvents.class, R.layout.event_list, FirebaseEventViewHolder.class,
+                    (UserEvents.class, R.layout.event_list_item_drag, FirebaseEventViewHolder.class,
                             mEventReference) {
 
                 @Override
