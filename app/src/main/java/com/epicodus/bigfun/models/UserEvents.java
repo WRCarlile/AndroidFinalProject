@@ -2,10 +2,10 @@ package com.epicodus.bigfun.models;
 import org.parceler.Parcel;
 @Parcel
 public class UserEvents {
-    private String name;
-    private String description;
-    private String imageUrl;
-    private String pushId;
+    String name;
+    String description;
+    String imageUrl;
+    String pushId;
 
     public UserEvents() {};
 

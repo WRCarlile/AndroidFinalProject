@@ -28,9 +28,9 @@ import butterknife.Bind;
 public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 //    private static final int MAX_WIDTH = 1600;
 //    private static final int MAX_HEIGHT = 2200;
-
     View mView;
     Context mContext;
+    public ImageView mEventImageView;
 
     public FirebaseEventViewHolder(View itemView) {
         super(itemView);
@@ -40,7 +40,8 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements 
     }
 
     public void bindEvent(UserEvents event) {
-        ImageView eventImageView = (ImageView) mView.findViewById(R.id.eventImageView);
+
+        mEventImageView = (ImageView) mView.findViewById(R.id.eventImageView);
         TextView nameTextView = (TextView) mView.findViewById(R.id.eventName);
         TextView descriptionTextView = (TextView) mView.findViewById(R.id.eventDescription);
 
@@ -49,7 +50,7 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements 
                 .load(event.getImageUrl())
 //                .resize(MAX_WIDTH, MAX_HEIGHT)
 //                .centerCrop()
-                .into(eventImageView);
+                .into(mEventImageView);
 
         nameTextView.setText(event.getName());
         descriptionTextView.setText(event.getDescription());
