@@ -3,7 +3,10 @@ package com.epicodus.bigfun.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -40,20 +44,32 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements 
     }
 
     public void bindEvent(UserEvents event) {
+        if(!event.getImageUrl().contains("http")) {
+            try {
+                Bitmap imageBitmap = decodeFromFirebaseBase64(event.getImageUrl());
+                mEventImageView.setImageBitmap(imageBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            mEventImageView = (ImageView) mView.findViewById(R.id.eventImageView);
+            TextView nameTextView = (TextView) mView.findViewById(R.id.eventName);
+            TextView descriptionTextView = (TextView) mView.findViewById(R.id.eventDescription);
 
-        mEventImageView = (ImageView) mView.findViewById(R.id.eventImageView);
-        TextView nameTextView = (TextView) mView.findViewById(R.id.eventName);
-        TextView descriptionTextView = (TextView) mView.findViewById(R.id.eventDescription);
 
-
-        Picasso.with(mContext)
-                .load(event.getImageUrl())
+            Picasso.with(mContext)
+                    .load(event.getImageUrl())
 //                .resize(MAX_WIDTH, MAX_HEIGHT)
 //                .centerCrop()
-                .into(mEventImageView);
+                    .into(mEventImageView);
 
-        nameTextView.setText(event.getName());
-        descriptionTextView.setText(event.getDescription());
+            nameTextView.setText(event.getName());
+            descriptionTextView.setText(event.getDescription());
+        }
+    }
+    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 
     @Override

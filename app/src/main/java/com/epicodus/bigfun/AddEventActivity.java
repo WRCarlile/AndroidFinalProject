@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.epicodus.bigfun.models.UserEvents;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ public class AddEventActivity extends FragmentActivity implements View.OnClickLi
         EditText mEventNamenInput;
         @Bind(R.id.eventDescriptionInput)
         EditText mEventDescriptionInput;
+        @Bind(R.id.camera) ImageButton mCamera;
 
         private DatabaseReference mAddNewEvent;
 
@@ -45,6 +47,7 @@ public class AddEventActivity extends FragmentActivity implements View.OnClickLi
             setContentView(R.layout.activity_add_event);
             ButterKnife.bind(this);
             mCreateNew.setOnClickListener(this);
+            mCamera.setOnClickListener(this);
         }
 
         @Override
@@ -57,6 +60,10 @@ public class AddEventActivity extends FragmentActivity implements View.OnClickLi
                 saveEventToFirebase(eventAdd);
                 Intent intent = new Intent(AddEventActivity.this, MainActivity.class);
                 startActivity(intent);
+            }
+            if(view == mCamera){
+            onLaunchCamera();
+
             }
         }
         public void saveEventToFirebase(UserEvents eventAdd) {
@@ -73,7 +80,7 @@ public class AddEventActivity extends FragmentActivity implements View.OnClickLi
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-                mImageLabel.setImageBitmap(imageBitmap);
+                mCamera.setImageBitmap(imageBitmap);
                 encodeBitmapAndSaveToFirebase(imageBitmap);
             }
         }
@@ -84,7 +91,7 @@ public class AddEventActivity extends FragmentActivity implements View.OnClickLi
             DatabaseReference ref = FirebaseDatabase.getInstance()
                     .getReference(Constants.FIREBASE_CHILD_SAVED_EVENT)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child(mEvent.getPushId())
+                    .child(eventAdd.getPushId())
                     .child("imageUrl");
             ref.setValue(imageEncoded);
         }

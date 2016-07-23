@@ -59,7 +59,8 @@
         android:layout_below="@+id/tNewEvent"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="57dp"
-        android:src="@drawable/ic_camera_alt_white_24dp"/>
+        android:src="@drawable/ic_camera_alt_white_24dp"
+        android:title="Photo"/>
 
 
 </RelativeLayout>

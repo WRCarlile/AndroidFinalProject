@@ -2,10 +2,13 @@ package com.epicodus.bigfun;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,8 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 import com.epicodus.bigfun.models.UserEvents;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,13 +67,27 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         ButterKnife.bind(this, view);
 
-        Picasso.with(view.getContext()).load(mEvent.getImageUrl()).into(mEventImageView);
-        mEventName.setText(mEvent.getName());
-        mEventDescription.setText(mEvent.getDescription());
-        mSaveEvent.setOnClickListener(this);
-        mMap.setOnClickListener(this);
+        if (!mEvent.getImageUrl().contains("http")) {
+            try {
+                Bitmap image = decodeFromFirebaseBase64(mEvent.getImageUrl());
+                mEventImageView.setImageBitmap(image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
 
+            Picasso.with(view.getContext()).load(mEvent.getImageUrl()).into(mEventImageView);
+            mEventName.setText(mEvent.getName());
+            mEventDescription.setText(mEvent.getDescription());
+            mSaveEvent.setOnClickListener(this);
+            mMap.setOnClickListener(this);
+        }
         return view;
+    }
+
+    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 
     @Override

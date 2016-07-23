@@ -6,6 +6,7 @@ public class UserEvents {
     String description;
     String imageUrl;
     String pushId;
+    String index;
 
     public UserEvents() {};
 
@@ -13,6 +14,7 @@ public class UserEvents {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.index = "not_specified";
 
     }
 
@@ -24,12 +26,21 @@ public class UserEvents {
     }
     public String getImageUrl() {return imageUrl;}
 
+
     public String getPushId(){
         return pushId;
     }
 
     public void setPushId(String pushId){
         this.pushId = pushId;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 }
 
