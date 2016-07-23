@@ -39,7 +39,13 @@ public class FirebaseEventListAdapter extends FirebaseRecyclerAdapter<UserEvents
             }
         });
     }
-
+    private void setIndexInFirebase() {
+        for (UserEvents event : mEvents) {
+            int index = mEvents.indexOf(event);
+            DatabaseReference ref = getRef(index);
+            ref.child("index").setValue(Integer.toString(index));
+        }
+    }
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
         notifyItemMoved(fromPosition, toPosition);
