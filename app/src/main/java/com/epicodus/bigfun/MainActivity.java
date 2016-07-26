@@ -34,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,12 +94,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                             for(int i=0; i<data.length(); i++) {
                                                 JSONObject eventData = data.getJSONObject(i);
                                                 JSONObject imageJSON = eventData.getJSONObject("cover");
-                                                    String city = "";
-                                                    String street = "";
-                                                    String zip = "";
-                                                    String longitude = "";
-                                                    String latitude = "";
-                                                    JSONObject placeJSON = eventData.getJSONObject("place");
+                                                String city = "";
+                                                String street = "";
+                                                String zip = "";
+                                                String longitude = "";
+                                                String latitude = "";
+                                                JSONObject placeJSON = eventData.getJSONObject("place");
 
                                                 try {
                                                     JSONObject locationJSON = placeJSON.getJSONObject("location");
@@ -108,26 +109,29 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                     latitude = locationJSON.optString("latitude", "");
                                                     longitude = locationJSON.optString("longitude", "");
 
-                                                    } catch (JSONException e) {
-                                                         e.printStackTrace();
-                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
 //
                                                 String time = eventData.optString("start_time", "");
+                                                try {
+                                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d'T'hh:mm:ssZ");
+                                                    Date date = dateFormat.parse(time);
+                                                    dateFormat = new SimpleDateFormat("E MMM d  h:mm:a");
+                                                    time = dateFormat.format(date);
 
-//                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-//                                                Date date = dateFormat.parse(time);
-//                                                Log.d("------", date);
+                                                } catch (java.text.ParseException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                Log.d("----------------", time);
 
-//                                                dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-//                                                String formatedDate = dateFormat.format(date);
-//
-//                                                Log.d("Date", formatedDate);
+
 
                                                 String imageUrl = imageJSON.optString("source", "");
                                                 String name = eventData.getString("name");
                                                 String description = eventData.optString("description", "");
 
-                                                UserEvents result = new UserEvents(name, description,imageUrl,city,street,time,zip,latitude,longitude);
+                                                UserEvents result = new UserEvents(name,description,imageUrl,city,street,time,zip,latitude,longitude);
 
                                                 mEvents.add(result);
 

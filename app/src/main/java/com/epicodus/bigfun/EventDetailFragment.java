@@ -41,6 +41,8 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
     @Bind(R.id.saveEvent) Button mSaveEvent;
     @Bind(R.id.bMap) Button mMap;
     @Bind(R.id.tAddress) TextView mAddress;
+    @Bind(R.id.tTime) TextView mTime;
+
 
     private UserEvents mEvent;
 
@@ -81,6 +83,7 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
             mEventName.setText(mEvent.getName());
             mEventDescription.setText(mEvent.getDescription());
             mAddress.setText(mEvent.getStreet());
+            mTime.setText(mEvent.getTime());
             mSaveEvent.setOnClickListener(this);
             mMap.setOnClickListener(this);
         }

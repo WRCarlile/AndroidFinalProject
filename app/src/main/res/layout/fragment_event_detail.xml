@@ -28,7 +28,8 @@
             android:paddingTop="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingBottom="20dp">
+            android:paddingBottom="20dp"
+            android:layout_marginLeft="10dp">
 
 
         <TextView
@@ -54,7 +55,6 @@
             android:textSize="15sp"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@string/font_family"
-            android:layout_centerVertical="true"
             android:layout_alignParentBottom="false"
             android:layout_alignParentEnd="false"
             android:layout_marginBottom="5dp"
@@ -80,19 +80,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tAddress"
-                android:layout_below="@+id/eventName"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:text="Adress"
                 android:textSize="15sp"
-                android:textColor="@android:color/holo_purple" />
+                android:textColor="@android:color/holo_purple"
+                android:layout_alignTop="@+id/bMap"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:id="@+id/tTime"
+                android:textColor="@android:color/holo_blue_bright"
+                android:layout_above="@+id/tAddress"
+                android:layout_alignLeft="@+id/tAddress"
+                android:layout_alignStart="@+id/tAddress" />
         </RelativeLayout>
 
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="40dp">
+            android:paddingTop="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
