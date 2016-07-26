@@ -52,7 +52,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private ProfileTracker profileTracker;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.addEvent) ImageButton mAddEvent;
+//    @Bind(R.id.addEvent) ImageButton mAddEvent;
     @Bind(R.id.bSavedEvents) Button mSavedEvents;
 
     private EventsListAdapter mAdapter;
@@ -179,7 +179,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //        getPlaces("place");
         setContentView(R.layout.main);
         ButterKnife.bind(this);
-        mAddEvent.setOnClickListener(this);
+//        mAddEvent.setOnClickListener(this);
         mSavedEvents.setOnClickListener(this);
 
 
