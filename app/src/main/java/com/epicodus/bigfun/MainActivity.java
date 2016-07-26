@@ -82,6 +82,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     public void onCompleted(JSONObject object, GraphResponse response) {
 
                                         updateUI();
+//
                                         try {
                                             JSONObject events = object.getJSONObject("events");
                                             JSONArray data = events.getJSONArray("data");
@@ -89,10 +90,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                             for(int i=0; i<data.length(); i++) {
                                                 JSONObject eventData = data.getJSONObject(i);
                                                 JSONObject imageJSON = eventData.getJSONObject("cover");
-                                                String imageUrl = imageJSON.getString("source");
-                                            String name = eventData.getString("name");
-                                                String description = eventData.getString("description");
-                                                UserEvents result = new UserEvents(name, description,imageUrl);
+                                                JSONObject placeJSON = eventData.getJSONObject("place");
+                                                String city = placeJSON.optString("city", "");
+                                                String street = placeJSON.optString("street", "");
+                                                String time = eventData.optString("start_time", "");
+                                                String zip = placeJSON.optString("zip", "");
+                                                String latitude = placeJSON.optString("latitude", "");
+                                                String longitude = placeJSON.optString("longitude", "");
+                                                String imageUrl = imageJSON.optString("source", "");
+                                                String name = eventData.getString("name");
+                                                String description = eventData.optString("description", "");
+
+                                                UserEvents result = new UserEvents(name, description,imageUrl,city,street,time,zip,latitude,longitude);
+
                                                 mEvents.add(result);
 
                                             }
@@ -113,8 +123,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                                 });
 
+                        request.executeAsync();
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "events{id, name, description, cover}");
+                        parameters.putString("fields", "events.limit(50){cover,id,start_time,place, name, description}");
                         request.setParameters(parameters);
                         request.executeAsync();
 
@@ -139,6 +150,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     }
                 });
 
+//        getPlaces("place");
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         mAddEvent.setOnClickListener(this);
@@ -171,13 +183,89 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
+//    private void getPlaces(String params) {
+//        GraphRequest request = GraphRequest.newGraphPathRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/search",
+//                new GraphRequest.Callback() {
+//                    @Override
+//                    public void onCompleted(GraphResponse response) {
+//
+//                        try {
+//                            JSONObject object = response.getJSONObject();
+//                            JSONArray data = object.getJSONArray("data");
+//
+//                            for (int i = 0; i < data.length(); i++) {
+//                                JSONObject idData = data.getJSONObject(i);
+//                                String id = idData.getString("id");
+//
+//                                getEvents(id);
+//
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//
+//        Bundle parameters = new Bundle();
+//        parameters.putString("q", "Portland,OR");
+//        parameters.putString("type", "place");
+//        request.setParameters(parameters);
+//        request.executeAsync();
+//    };
+//
+//
+//    private void getEvents(String params) {
+//        GraphRequest request = GraphRequest.newGraphPathRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/search"+ params,
+//                new GraphRequest.Callback() {
+//                    @Override
+//                    public void onCompleted(GraphResponse response) {
+//                        processResults(response);
+//                    });
+//
+//                    Bundle parameters = new Bundle();
+//                    parameters.putString("q", "Portland,OR");
+//                    parameters.putString("type", "place");
+//                    request.setParameters(parameters);
+//                    request.executeAsync();
+//                };
+
+
+
+////
+//    public ArrayList<UserEvents> processResults(GraphResponse response) {
+//        ArrayList<UserEvents> events = new ArrayList<>();
+//        try {
+//
+//            JSONObject eventObjects = response.getJSONObject("events");
+//            JSONArray data = events.getJSONArray("data");
+//
+//            for(int i=0; i<data.length(); i++) {
+//                JSONObject eventData = data.getJSONObject(i);
+//                JSONObject imageJSON = eventData.getJSONObject("cover");
+//                String imageUrl = imageJSON.getString("source");
+//            String name = eventData.getString("name");
+//                String description = eventData.getString("description");
+//                UserEvents result = new UserEvents(name, description,imageUrl);
+//                mEvents.add(result);
+//
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return events;
+//    }
 
     @Override
     public void onClick(View view) {
-        if(view == mAddEvent) {
-            Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-            startActivity(intent);
-        }
+//        if(view == mAddEvent) {
+//            Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+//            startActivity(intent);
+//        }
         if(view == mSavedEvents) {
             Intent intent = new Intent(MainActivity.this, SavedEventListActivity.class);
             startActivity(intent);

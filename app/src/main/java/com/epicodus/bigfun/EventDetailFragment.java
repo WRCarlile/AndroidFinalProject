@@ -107,6 +107,8 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
         if (view == mMap) {
+            String latitude = mEvent.getLatitude();
+            String longitude = mEvent.getLongitude();
             Uri webpage = Uri.parse("https://maps.google.com");
             Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
             startActivity(webIntent);
