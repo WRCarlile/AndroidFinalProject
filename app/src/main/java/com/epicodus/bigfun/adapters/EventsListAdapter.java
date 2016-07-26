@@ -53,11 +53,10 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
 
 
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @Bind(R.id.eventName)
-        TextView mNameTextView;
+        @Bind(R.id.eventName) TextView mNameTextView;
         @Bind(R.id.eventDescription) TextView mDescriptionTextView;
-        @Bind(R.id.eventImageView)
-        ImageView mEventImageView;
+        @Bind(R.id.eventImageView) ImageView mEventImageView;
+        @Bind(R.id.tTime) TextView mTime;
 
         private Context mContext;
 
@@ -73,6 +72,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
         public void bindEvent(UserEvents events) {
             mNameTextView.setText(events.getName());
             mDescriptionTextView.setText(events.getDescription());
+            mTime.setText(events.getTime());
             Picasso.with(mContext)
                     .load(events.getImageUrl())
 //                    .resize(MAX_WIDTH, MAX_HEIGHT)

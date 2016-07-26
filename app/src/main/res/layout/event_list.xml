@@ -18,14 +18,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:text="eventName"
+                    android:id="@+id/tTime"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:paddingBottom="10dp"
+                    android:fontFamily="@string/font_family"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="15dp" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/eventImageView"
-                    android:layout_margin="10dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/gate_flyer"
-                    android:contentDescription="Photo of Event" />
+                    android:contentDescription="Photo of Event"
+                    android:layout_marginBottom="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
