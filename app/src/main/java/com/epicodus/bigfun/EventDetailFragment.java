@@ -40,6 +40,7 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
     @Bind(R.id.eventName) TextView mEventName;
     @Bind(R.id.saveEvent) Button mSaveEvent;
     @Bind(R.id.bMap) Button mMap;
+    @Bind(R.id.tAddress) TextView mAddress;
 
     private UserEvents mEvent;
 
@@ -79,6 +80,7 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
             Picasso.with(view.getContext()).load(mEvent.getImageUrl()).into(mEventImageView);
             mEventName.setText(mEvent.getName());
             mEventDescription.setText(mEvent.getDescription());
+            mAddress.setText(mEvent.getStreet());
             mSaveEvent.setOnClickListener(this);
             mMap.setOnClickListener(this);
         }

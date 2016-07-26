@@ -34,8 +34,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -91,37 +93,36 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                             for(int i=0; i<data.length(); i++) {
                                                 JSONObject eventData = data.getJSONObject(i);
                                                 JSONObject imageJSON = eventData.getJSONObject("cover");
-
                                                     String city = "";
                                                     String street = "";
                                                     String zip = "";
                                                     String longitude = "";
                                                     String latitude = "";
-
                                                     JSONObject placeJSON = eventData.getJSONObject("place");
 
                                                 try {
+                                                    JSONObject locationJSON = placeJSON.getJSONObject("location");
+                                                    city = locationJSON.optString("city", "");
+                                                    street = locationJSON.optString("street", "");
+                                                    zip = locationJSON.optString("zip", "");
+                                                    latitude = locationJSON.optString("latitude", "");
+                                                    longitude = locationJSON.optString("longitude", "");
 
-                                                        JSONObject locationJSON = placeJSON.getJSONObject("location");
-                                                        city = locationJSON.optString("city", "");
-                                                        street = locationJSON.optString("street", "");
-                                                        zip = locationJSON.optString("zip", "");
-                                                        latitude = locationJSON.optString("latitude", "");
-                                                        Log.d("------------", latitude.toString());
-                                                        longitude = locationJSON.optString("longitude", "");
-
-
-                                                    }  catch (JSONException e) {
+                                                    } catch (JSONException e) {
                                                          e.printStackTrace();
-                                                     }
-//                                                String city = locationJSON.optString("city", "");
-//                                                String street = locationJSON.optString("street", "");
+                                                    }
 //
-//                                                String zip = locationJSON.optString("zip", "");
-//                                                String latitude = locationJSON.optString("latitude", "");
-//                                                Log.d("------------", latitude.toString());
-//                                                String longitude = locationJSON.optString("longitude", "");
                                                 String time = eventData.optString("start_time", "");
+
+//                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+//                                                Date date = dateFormat.parse(time);
+//                                                Log.d("------", date);
+
+//                                                dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//                                                String formatedDate = dateFormat.format(date);
+//
+//                                                Log.d("Date", formatedDate);
+
                                                 String imageUrl = imageJSON.optString("source", "");
                                                 String name = eventData.getString("name");
                                                 String description = eventData.optString("description", "");
