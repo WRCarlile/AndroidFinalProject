@@ -84,19 +84,44 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         updateUI();
 //
                                         try {
+
                                             JSONObject events = object.getJSONObject("events");
                                             JSONArray data = events.getJSONArray("data");
 
                                             for(int i=0; i<data.length(); i++) {
                                                 JSONObject eventData = data.getJSONObject(i);
                                                 JSONObject imageJSON = eventData.getJSONObject("cover");
-                                                JSONObject placeJSON = eventData.getJSONObject("place");
-                                                String city = placeJSON.optString("city", "");
-                                                String street = placeJSON.optString("street", "");
+
+                                                    String city = "";
+                                                    String street = "";
+                                                    String zip = "";
+                                                    String longitude = "";
+                                                    String latitude = "";
+
+                                                    JSONObject placeJSON = eventData.getJSONObject("place");
+
+                                                try {
+
+                                                        JSONObject locationJSON = placeJSON.getJSONObject("location");
+                                                        city = locationJSON.optString("city", "");
+                                                        street = locationJSON.optString("street", "");
+                                                        zip = locationJSON.optString("zip", "");
+                                                        latitude = locationJSON.optString("latitude", "");
+                                                        Log.d("------------", latitude.toString());
+                                                        longitude = locationJSON.optString("longitude", "");
+
+
+                                                    }  catch (JSONException e) {
+                                                         e.printStackTrace();
+                                                     }
+//                                                String city = locationJSON.optString("city", "");
+//                                                String street = locationJSON.optString("street", "");
+//
+//                                                String zip = locationJSON.optString("zip", "");
+//                                                String latitude = locationJSON.optString("latitude", "");
+//                                                Log.d("------------", latitude.toString());
+//                                                String longitude = locationJSON.optString("longitude", "");
                                                 String time = eventData.optString("start_time", "");
-                                                String zip = placeJSON.optString("zip", "");
-                                                String latitude = placeJSON.optString("latitude", "");
-                                                String longitude = placeJSON.optString("longitude", "");
                                                 String imageUrl = imageJSON.optString("source", "");
                                                 String name = eventData.getString("name");
                                                 String description = eventData.optString("description", "");

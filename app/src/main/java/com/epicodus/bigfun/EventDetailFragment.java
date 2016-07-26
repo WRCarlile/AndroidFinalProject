@@ -106,12 +106,18 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
             pushRef.setValue(mEvent);
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
-        if (view == mMap) {
+        if (view == mMap ) {
             String latitude = mEvent.getLatitude();
             String longitude = mEvent.getLongitude();
-            Uri webpage = Uri.parse("https://maps.google.com");
-            Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-            startActivity(webIntent);
+            String street = mEvent.getStreet();
+            String geo = "geo:"+latitude+","+longitude+"?q="+street;
+            Uri gmmIntentUri = Uri.parse(geo);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        }
+        else {
+            Toast.makeText(getContext(), "No Address", Toast.LENGTH_SHORT).show();
         }
 
     }
