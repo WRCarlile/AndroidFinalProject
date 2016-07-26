@@ -1,4 +1,4 @@
-# FaceBook Event App
+# Big Fun : FaceBook Event App
 > **By Ryan Carlile**
 
 #### _Epicodus Android class, July 2016_
@@ -8,11 +8,11 @@
 
 ## __Description__
 
-######  Log into Facebook and have all of your events organized.
+###### A Facebook API practice APP that allows you to sign on with Facebook and see all of the Events you are attending. Users can select an event for details, map the location in google maps and save events to a Firebase database. Firebase is authenticated via Facebook and saved events can be deleted by swiping from the list.
 
 ## Known Bugs
 
-> **No known bugs...**
+> **App is in development and can be broken at any point. Please use only as a reference**
 
 ```
   clone repo using Android Studio checkout Project using VCS
@@ -26,4 +26,4 @@
 Legal
 ------
 
-_*Copyright (c) 2016 Ryan Carlile - Student in Epicodus*_
+_*Copyright (c) 2016 Ryan Carlile - Student at Epicodus*_
