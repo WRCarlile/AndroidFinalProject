@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 
-public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseEventViewHolder extends RecyclerView.ViewHolder {
 //    private static final int MAX_WIDTH = 1600;
 //    private static final int MAX_HEIGHT = 2200;
     View mView;
@@ -40,7 +40,6 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements 
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
     }
 
     public void bindEvent(UserEvents event) {
@@ -72,30 +71,4 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder implements 
         return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 
-    @Override
-    public void onClick(View view) {
-        final ArrayList<UserEvents> events = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_SAVED_EVENT);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    events.add(snapshot.getValue(UserEvents.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, EventDetailActivity.class);
-                intent.putExtra("position", itemPosition + "");
-                intent.putExtra("events", Parcels.wrap(events));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
 }
