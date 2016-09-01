@@ -53,7 +53,6 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder {
         }else {
             mEventImageView = (ImageView) mView.findViewById(R.id.eventImageView);
             TextView nameTextView = (TextView) mView.findViewById(R.id.eventName);
-            TextView descriptionTextView = (TextView) mView.findViewById(R.id.eventDescription);
 
 
             Picasso.with(mContext)
@@ -63,7 +62,6 @@ public class FirebaseEventViewHolder extends RecyclerView.ViewHolder {
                     .into(mEventImageView);
 
             nameTextView.setText(event.getName());
-            descriptionTextView.setText(event.getDescription());
         }
     }
     public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {

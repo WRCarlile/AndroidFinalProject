@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_events","email", "public_profile"));
-
+        getPlaces("");
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -123,16 +123,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 } catch (java.text.ParseException e) {
                                                     e.printStackTrace();
                                                 }
-                                                Log.d("----------------", time);
-
-
 
                                                 String imageUrl = imageJSON.optString("source", "");
                                                 String name = eventData.getString("name");
                                                 String description = eventData.optString("description", "");
 
                                                 UserEvents result = new UserEvents(name,description,imageUrl,city,street,time,zip,latitude,longitude);
-
                                                 mEvents.add(result);
 
                                             }
@@ -213,58 +209,87 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
-//    private void getPlaces(String params) {
-//        GraphRequest request = GraphRequest.newGraphPathRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/search",
-//                new GraphRequest.Callback() {
-//                    @Override
-//                    public void onCompleted(GraphResponse response) {
-//
-//                        try {
-//                            JSONObject object = response.getJSONObject();
-//                            JSONArray data = object.getJSONArray("data");
-//
-//                            for (int i = 0; i < data.length(); i++) {
-//                                JSONObject idData = data.getJSONObject(i);
-//                                String id = idData.getString("id");
-//
-//                                getEvents(id);
-//
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//
-//        Bundle parameters = new Bundle();
-//        parameters.putString("q", "Portland,OR");
-//        parameters.putString("type", "place");
-//        request.setParameters(parameters);
-//        request.executeAsync();
-//    };
-//
-//
-//    private void getEvents(String params) {
-//        GraphRequest request = GraphRequest.newGraphPathRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/search"+ params,
-//                new GraphRequest.Callback() {
-//                    @Override
-//                    public void onCompleted(GraphResponse response) {
-//                        processResults(response);
-//                    });
-//
-//                    Bundle parameters = new Bundle();
-//                    parameters.putString("q", "Portland,OR");
-//                    parameters.putString("type", "place");
-//                    request.setParameters(parameters);
-//                    request.executeAsync();
-//                };
+    private void getPlaces(String params) {
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/search",
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+
+                        try {
+                            JSONObject object = response.getJSONObject();
+                            JSONArray data = object.getJSONArray("data");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject idData = data.getJSONObject(i);
+                                String id = idData.getString("id");
+                            Log.d("----", id + "");
+                                ArrayList<String> ids = new ArrayList<String>();
+                                ids.add(id + ",");
+                                getEvents(id);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("type", "place");
+        parameters.putString("q", "*");
+        parameters.putString("center", "45.5231-122.6765");
+        parameters.putString("distance", "1000");
+        parameters.putString("fields", "name,id");
+        parameters.putString("limit", "20");
+        request.setParameters(parameters);
+        request.executeAsync();
+    };
 
 
+    private void getEvents(String params) {
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/",
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            JSONObject events = response.getJSONObject("");
 
+                Log.d("events ------>", response + "");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//            JSONArray data = events.getJSONArray("data");
+
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("ids", params);
+        parameters.putString("fields", "events.limit(50){cover,id,start_time,place, name, description}");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+    }
+//    GraphRequest request = GraphRequest.newGraphPathRequest(
+//            accessToken,
+//            "/",
+//            new GraphRequest.Callback() {
+//                @Override
+//                public void onCompleted(GraphResponse response) {
+//                    // Insert your code here
+//                }
+//            });
+//
+//    Bundle parameters = new Bundle();
+//    parameters.putString("ids", "");
+//    parameters.putString("fields", "id,name,cover.fields(id,source),picture.type(large),location,events.fields(id,name,cover.fields(id,source),picture.type(large),description,start_time)");
+//    request.setParameters(parameters);
+//    request.executeAsync();
 ////
 //    public ArrayList<UserEvents> processResults(GraphResponse response) {
 //        ArrayList<UserEvents> events = new ArrayList<>();
