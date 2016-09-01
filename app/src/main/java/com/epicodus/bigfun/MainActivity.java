@@ -331,7 +331,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 });
         Bundle parameters = new Bundle();
         parameters.putString("ids", params);
-        parameters.putString("fields","events.limit(10){cover,id,start_time,place, name, description}");
+        long unixTime = System.currentTimeMillis();
+        Log.d("time --------", unixTime +"");
+        parameters.putString("fields","events.limit(10).fields(cover,id,start_time,place, name, description).since(1472749338)");
         request.setParameters(parameters);
         request.executeAsync();
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,6 +86,8 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
                     .centerInside()
                     .into(mEventImageView);
         }
+      
+
         @Override
         public void onClick(View v) {
             Log.d("click listener", "working");
