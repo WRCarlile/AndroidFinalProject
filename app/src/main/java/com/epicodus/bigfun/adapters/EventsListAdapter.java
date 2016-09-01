@@ -2,6 +2,7 @@ package com.epicodus.bigfun.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.epicodus.bigfun.EventDetailActivity;
 import com.epicodus.bigfun.R;
 import com.epicodus.bigfun.models.UserEvents;
+import com.epicodus.bigfun.utils.BitmapTransform;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -23,8 +25,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.EventViewHolder> {
-//    private static final int MAX_WIDTH = 1600;
-//    private static final int MAX_HEIGHT = 2200;
+    private static final int MAX_WIDTH = 1024;
+    private static final int MAX_HEIGHT = 768;
 
     private ArrayList<UserEvents> mEvents = new ArrayList<>();
     private Context mContext;
@@ -68,7 +70,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
             itemView.setOnClickListener(this);
         }
 
-
+        int size = (int) Math.ceil(Math.sqrt(MAX_WIDTH * MAX_HEIGHT));
         public void bindEvent(UserEvents events) {
             mNameTextView.setText(events.getName());
             mDescriptionTextView.setText(events.getDescription());
@@ -77,6 +79,10 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Ev
                     .load(events.getImageUrl())
 //                    .resize(MAX_WIDTH, MAX_HEIGHT)
 //                    .centerCrop()
+                    .transform(new BitmapTransform(MAX_WIDTH, MAX_HEIGHT))
+                    .skipMemoryCache()
+                    .resize(size, size)
+                    .centerInside()
                     .into(mEventImageView);
         }
         @Override

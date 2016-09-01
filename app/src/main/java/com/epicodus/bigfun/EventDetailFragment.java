@@ -121,9 +121,9 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
         }
-        else {
-            Toast.makeText(getContext(), "No Address", Toast.LENGTH_SHORT).show();
-        }
+//        else {
+//            Toast.makeText(getContext(), "No Address", Toast.LENGTH_SHORT).show();
+//        }
 
     }
 }
